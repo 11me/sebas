@@ -6,6 +6,7 @@ import (
 	"log"
 	"log/slog"
 	"os/signal"
+	"runtime/debug"
 	"syscall"
 	"time"
 
@@ -71,7 +72,7 @@ func watchDelistings(
 				if err != nil {
 					slog.Error("delisting watcher failed", "err", err)
 				} else if r := recover(); r != nil {
-					slog.Warn("delistingWatcher recovered from panic", "panic", r)
+					slog.Warn("delistingWatcher recovered from panic", "panic", r, "stack", string(debug.Stack()))
 				}
 
 				ticker.Reset(interval)
